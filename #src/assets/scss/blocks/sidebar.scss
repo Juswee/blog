@@ -1,0 +1,241 @@
+.sidebar {
+  flex: 0 0 $sidebar-width;
+  height: 100%;
+  background-color: $firsty;
+  box-shadow: 0 0 10px 1px rgba(#000, .25);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__header {
+    flex: 0 1 20%;
+    overflow: hidden;
+  }
+
+  &__logo {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: 0 20px;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  &__text {
+    margin: 8vh 0;
+    text-align: center;
+
+    &::before, &::after {
+      content: '';
+      position: relative;
+      top: -4vh;
+      left: 50%;
+      transform: translateX(-50%);
+      display: block;
+      width: 70%; 
+      height: 1px;
+      background-color: rgba($white, .35);
+    }
+
+    &::after {
+      top: 4vh;
+    }
+  }
+}
+.me {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__logo {
+    margin: -50px 0 1vh 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px $white solid;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  &__name {
+    font-size: 18px;
+  }
+
+  &__condition {
+    color: $white-alpha;
+  }
+}
+.social {
+  padding: 2vh 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 0 15px;
+  width: 100%;
+
+  &__item {
+    height: 27px;
+  }
+
+  &__link {
+    display: inline-block;
+    height: 25px;
+
+    &:hover {
+      img {
+        transform: translateY(-3px);
+      }
+    }
+
+    img {
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 6px 1px rgba(#000, .5);
+      object-fit: cover;
+      transition: .4s;
+    }
+  }
+}
+@supports not (grid-gap: 10px) {
+  .social__item {
+    margin: 0 7.5px;
+  }
+}
+.button-flex {
+  display: flex;
+  justify-content: space-evenly;
+
+  &__item {
+    width: 40%;
+    height: 40px;
+    border-radius: 25px;
+    background-color: #CB2027;
+    box-shadow: 4px 6px 10px 1px rgba(#000, .5);
+
+    &:last-child {
+      background-color:#2c31b4;
+    }
+  }
+}
+
+.nav.sidebar-nav {
+  display: none;
+}
+
+@media screen and (max-width: 1070px) {
+  .sidebar {
+    padding-top: $header-height;
+    position: fixed;
+    top: 0;
+    left: #{-$sidebar-width};
+    width: 0;
+    background-color: rgba($black, .9);
+    transition: left .5s .15s, width .25s linear;
+    z-index: $index-sidebar-mob;
+
+    &.active {
+      left: 0;
+      width: 100vw;
+      transition: left .3s, width .3s .1s linear;
+
+      .sidebar__inner {
+        display: flex;
+      }
+    }
+    
+    &__inner {
+      position: relative;
+      width: $sidebar-width;
+      background-color: $firsty;
+    }
+
+    &__content {
+      padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__text {
+      margin: 0;
+      padding: 10px 12px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-shadow: 2px 2px 4px rgba(#000, .8);
+      background: linear-gradient(180deg, rgba(#000, .7), rgba(#000, .05));
+      // display: none;
+
+      &::before, &::after {
+        display: none;
+      }
+    }
+
+    .nav {
+      padding-top: 15px;
+      display: block;
+      flex: 1 1 auto;
+
+      &__inner {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: start;
+        width: 100%;
+        height: 100%;
+      }
+
+      &__item {
+        margin-top: 15px;
+        height: auto;
+        font-size: 17px;
+        font-weight: 400;
+      }
+      
+      &__link {
+        position: relative;
+
+        &:hover {
+          background-color: transparent;
+
+          &::after {
+            width: calc(100% - 20px);
+            opacity: 1;
+          }
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          display: block;
+          width: 70%;
+          height: 1px;
+          background-color: $white-alpha;
+          opacity: 0;
+          transition: .3s;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-height: 635px) {
+  .sidebar__text {
+    display: none;
+  }
+}
+@media screen and (max-height: 570px) {
+  .sidebar__header {
+    max-height: 13%;
+  }
+}
