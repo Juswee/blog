@@ -1,0 +1,39 @@
+$firsty: #202020;
+$secondary: #121212;
+$grey-bright: #d2d2d2;
+$blackyblue: #2c3e50;
+$white-alpha: rgba(#fff, 0.6);
+
+$black: #181818;
+$grey: #828282;
+$white: #dcdce9;
+$orange: #f38181;
+// $blue_save: #2c31b4; 
+$blue: #3137c9; 
+$red: #cb2027;
+$green: #50c878;
+$yellow: #f3eba2;
+$pink: #cc397b;
+$purple: #9457eB;
+
+$story-gradient: rgba(0, 0, 0, 0.73);
+
+$sidebar-width: 300px;
+$header-height: 40px;
+$footer-height: 30px;
+
+$index-menu-mob: 6;
+$index-header: 3;
+$index-sidebar-mob: 2;
+$index-story: 1;
+
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url("../fonts/#{$file_name}.woff") format("woff"),
+    url("../fonts/#{$file_name}.woff2") format("woff2");
+    font-weight: #{$weight};
+    font-style: #{$style};
+  }
+}

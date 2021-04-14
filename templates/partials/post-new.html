@@ -1,0 +1,18 @@
+<form action="/addpost" method="post" enctype="multipart/form-data" class="post post-new">
+  <div class="post-new__field">
+    <input type="text" name="title" class="post-new__title post-new__input" placeholder="Заголовок" hidden>
+    <input type="text" name="link" class="post-new__link post-new__input" placeholder="Ссылка на видео" hidden>
+    <textarea name="text" class="post-new__text post-new__input" placeholder="Напишите что-нибудь"></textarea>
+    <div class="options">
+      <select name="type" size="1" class="options__item">
+        <option value="text" selected>Text</option>
+        <option value="article">Article</option>
+        <option value="video">Video</option>
+      </select>
+      <input type="text" name="tags" class="post-new__tags post-new__input" placeholder="Введите тэги">
+    </div>
+  </div>
+  <input type="file" name="image" id="image" value="" accept="['png', 'jpg', 'jpeg', 'svg']" hidden>
+  <label for="image" class="post-new__attachment" hidden></label>
+  <input type="submit" value="" class="post-new__submit">
+</form>

@@ -1,0 +1,12 @@
+.text {
+  padding: 15px 25px;
+
+  &__main {
+    padding: 0 0 1vh;
+  } 
+
+  &__tags {
+    margin: 0;
+    justify-content: flex-end;
+  }
+}
