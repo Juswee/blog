@@ -1,0 +1,22 @@
+<article class="post">
+  <header class="post__header">
+    <img src="/static/images/uploads/{{ post.img }}" alt="" class="post__logo">
+  </header>
+  <main class="post__main">
+    <ul class="post__tags tag">
+      {% for tag in post.tags %}
+        <li class="post__tag tag__item"><a href="/filter/?{{ tag }}" class="tag__link">{{ tag }}</a></li>
+      {% endfor %}
+    </ul>
+    <h1 class="post__title">{{ post.title }}</h1>
+  </main>
+  <footer class="post__footer">
+    <div class="l-side">
+      <time class="post__date" datetime="{{ post.timestamp }}">{{ post.timestamp }}</time>
+      <a href="/filter/?type={{ post.type }}" class="post__type">
+        {{ post.type }}
+      </a>
+    </div>
+    <a href="{{ post.link }}" class="post__link">смотреть</a>
+  </footer>
+</article>

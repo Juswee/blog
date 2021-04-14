@@ -2,20 +2,10 @@
   <div class="story__container">
     {% for story in stories %}
       <section class="story__item">
-        <img class="story__logo" src="/static/images/story{{ story.idx }}.jpg" alt="">
+        <img class="story__logo" src="/static/images/uploads/story{{ story.idx }}.jpg" alt="">
         <h1 class="story__title">{{ story.title }}</h1>
         <time class="story__date" datetime="{{ story.datetime }}">{{ story.datetime }}</time>
       </section>
     {% endfor %}
-    <!-- <section class="story__item">
-      <img class="story__logo" src="/static/images/story2.jpg" alt="">
-      <h1 class="story__title">Выбираю ноутбук</h1>
-      <time class="story__date" datetime="15.03.2021">15.03.2021</time>
-    </section>
-    <section class="story__item">
-      <img class="story__logo" src="/static/images/story3.jpg" alt="">
-      <h1 class="story__title">Весна пришла</h1>
-      <time class="story__date" datetime="01.03.2021">01.03.2021</time>
-    </section> -->
   </div>
 </article>

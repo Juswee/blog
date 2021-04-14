@@ -1,0 +1,76 @@
+.post-new {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  grid-gap: 0 10px;
+  background-color: $secondary;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-gap: 10px 0;
+    flex: 1 1 auto;
+  }
+
+  &__input {
+    height: 1.3em;
+    font-size: 16px;
+    color: #fff;
+    background-color: inherit;
+  }
+
+  &__text {
+    min-height: 1.3em;
+    max-height: 10em;
+    resize: vertical;
+  }
+
+  &__tags {
+    padding: 0 0 0 6px;
+    flex: 1 1 auto;
+    height: 100%;
+    font-size: 13px;
+    border-bottom: 1px $white-alpha solid;
+    border-radius: 3px;
+  }
+
+  &__submit, &__attachment {
+    align-self: flex-start;
+    width: 44px;
+    height: 44px;
+    border-radius: 45%;
+    background-color: transparent;
+    background-image: url('/static/images/send.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+  }
+  
+  &__attachment {
+    background-image: url('/static/images/attachment.png');
+  }
+}
+
+.options {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  grid-gap: 0 15px;
+
+  &__item {
+    padding: 3px 7px;
+    color: $white-alpha;
+    background-color: $secondary;
+    border: 1px $firsty solid;
+    border-radius: 3px;
+
+    & > option:selected {
+      background-color: $blue;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+  }
+}

@@ -17,71 +17,39 @@ const notify = require('gulp-notify');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const browserSync = require('browser-sync').create();
-const shell = require('gulp-shell');
 
 /* Paths */
-const srcPath = '#src/';
 const distPath = '#app/';
 
 const path = {
   build: {
-    html: distPath + 'templates/',
-    html_blocks: distPath + 'templates/partials/',
     js: distPath + 'static/js/',
     css: distPath + 'static/css/',
     images: distPath + 'static/images/',
     fonts: distPath + 'static/fonts/',
   },
   src: {
-    html: srcPath + '*.html',
-    html_blocks: srcPath + 'partials/*.html',
-    js: srcPath + 'assets/js/*.js',
-    css: srcPath + 'assets/scss/*.scss',
+    js: distPath + 'assets/js/*.js',
+    css: distPath + 'assets/scss/*.scss',
     images:
-      srcPath +
+      distPath +
       'assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}',
-    fonts: srcPath + 'assets/fonts/**/*.{eot,woff,woff2,ttf,svg}',
+    fonts: distPath + 'assets/fonts/**/*.{eot,woff,woff2,ttf,svg}',
   },
   watch: {
-    html: srcPath + '**/*.html',
-    html_blocks: srcPath + 'partials/*.html',
-    js: srcPath + 'assets/js/**/*.js',
-    css: srcPath + 'assets/scss/**/*.scss',
+    js: distPath + 'assets/js/**/*.js',
+    css: distPath + 'assets/scss/**/*.scss',
     images:
-      srcPath +
+      distPath +
       'assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}',
-    fonts: srcPath + 'assets/fonts/**/*.{eot,woff,woff2,ttf,svg}',
+    fonts: distPath + 'assets/fonts/**/*.{eot,woff,woff2,ttf,svg}',
   },
-  clean: {
-    html: './' + distPath + 'templates/',
-    assets: './' + distPath + 'static/',
-  },
+  clean: ['./' + distPath + 'static/**/*.*', '!./' + distPath + 'static/*.db', '!./' + distPath + 'static/images/uploads/*.*'],
 };
 
 /* Tasks */
-function html() {
-  panini.refresh();
-  return src(path.src.html, { base: srcPath })
-    .pipe(plumber())
-    .pipe(
-      panini({
-        root: srcPath,
-        layouts: srcPath + 'layouts/',
-        partials: srcPath + 'partials/',
-        helpers: srcPath + 'helpers/',
-        data: srcPath + 'data/',
-      })
-    )
-    .pipe(dest(path.build.html))
-}
-
-function html_blocks() {
-  return src(path.src.html_blocks)
-    .pipe(dest(path.build.html_blocks))
-}
-
 function css() {
-  return src(path.src.css, { base: srcPath + 'assets/scss/' })
+  return src(path.src.css)
     .pipe(
       plumber({
         errorHandler: function (err) {
@@ -124,7 +92,7 @@ function css() {
 }
 
 function cssWatch() {
-  return src(path.src.css, { base: srcPath + 'assets/scss/' })
+  return src(path.src.css)
     .pipe(
       plumber({
         errorHandler: function (err) {
@@ -151,7 +119,7 @@ function cssWatch() {
 }
 
 function js() {
-  return src(path.src.js, { base: srcPath + 'assets/js/' })
+  return src(path.src.js)
     .pipe(
       plumber({
         errorHandler: function (err) {
@@ -165,7 +133,7 @@ function js() {
     )
     .pipe(
       webpackStream({
-        mode: 'production',
+        mode: 'development',
         output: {
           filename: 'app.js',
         },
@@ -187,7 +155,7 @@ function js() {
 }
 
 function jsWatch() {
-  return src(path.src.js, { base: srcPath + 'assets/js/' })
+  return src(path.src.js, { base: distPath + 'assets/js/' })
     .pipe(
       plumber({
         errorHandler: function (err) {
@@ -201,7 +169,7 @@ function jsWatch() {
     )
     .pipe(
       webpackStream({
-        mode: 'development',
+        mode: 'production',
         output: {
           filename: 'app.js',
         },
@@ -231,25 +199,20 @@ function fonts() {
 }
 
 function clean() {
-  del(path.clean.assets);
-  return del(path.clean.html);
+  return del(path.clean);
 }
 
 function watchFiles() {
-  gulp.watch([path.watch.html], html);
-  gulp.watch([path.watch.html_blocks], html_blocks);
-  gulp.watch([path.watch.css], css);
-  gulp.watch([path.watch.js], js);
+  gulp.watch([path.watch.css], cssWatch);
+  gulp.watch([path.watch.js], jsWatch);
   gulp.watch([path.watch.images], images);
   gulp.watch([path.watch.fonts], fonts);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, html_blocks, css, js, images, fonts));
+const build = gulp.series(clean, gulp.parallel(css, js, images, fonts));
 const watch = gulp.parallel(build, watchFiles);
 
 /* Exports Tasks */
-exports.html = html;
-exports.html_blocks = html_blocks;
 exports.css = css;
 exports.js = js;
 exports.images = images;
