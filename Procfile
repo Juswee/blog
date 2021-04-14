@@ -1,4 +1,4 @@
 web: set FLASK_APP=app
-set FLASK_ENV=production
-set FLASK_DEGUB=0
-flask run
+web: set FLASK_ENV=production
+web: set FLASK_DEGUB=0
+web: flask run
