@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Blog
+{% endblock %}
+
+{% block content %}
+  {% include 'partials/story.html' %}
+
+  {% include 'partials/post-new.html' %}
+
+  {% for post in feed %}
+    {% include 'partials/post-' + post.type + '.html' %}
+  {% endfor %}
+{% endblock %}

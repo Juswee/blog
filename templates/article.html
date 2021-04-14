@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Blog. Article
+{% endblock %}
+
+{% block content %}
+<article class="article">
+  <section class="article__main">
+    <div class="article__header">
+      <h1 class="article__title">{{ post.title }}</h1>
+      <p class="share">Поделиться</p>
+    </div>
+    <ul class="article__tags tag">
+      <time class="article__datetime tag__item" datetime="{{ post.timestamp }}">{{ post.timestamp }}</time>
+      {% for tag in post.tags %}
+      <li class="tag__item">{{ tag }}</li>
+      {% endfor %}
+    </ul>
+    <img src="/static/images/uploads/{{ post.img }}" alt="" class="article__image">
+    {% for p in post.text.split('\n') %}
+      <p class="article__text">{{ p }}</p>
+    {% endfor %}
+  </section>
+
+  {% include 'partials/post-other.html' %}
+
+  {% include 'partials/comment.html' %}
+</article>
+{% endblock %}

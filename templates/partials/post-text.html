@@ -1,0 +1,18 @@
+<article class="post text">
+  <main class="post__main text__main">
+    <p class="post__text">{{ post.text }}</p>
+  </main>
+  <footer class="post__footer text__footer">
+    <div class="l-side">
+      <time class="post__date" datetime="{{ post.timestamp }}">{{ post.timestamp }}</time>
+      <a href="/filter?type={{ post.type }}" class="post__type">
+        {{ post.type }}
+      </a>
+    </div>
+    <ul class="text__tags post__tags tag">
+      {% for tag in post.tags %}
+        <li class="post__tag tag__item"><a href="/filter?{{ tag }}" class="tag__link">{{ tag }}</a></li>
+      {% endfor %}
+    </ul>
+  </footer>
+</article>

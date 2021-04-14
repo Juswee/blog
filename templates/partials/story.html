@@ -1,0 +1,11 @@
+<article class="story">
+  <div class="story__container">
+    {% for story in stories %}
+      <section class="story__item">
+        <img class="story__logo" src="/static/images/uploads/story{{ story.idx }}.jpg" alt="">
+        <h1 class="story__title">{{ story.title }}</h1>
+        <time class="story__date" datetime="{{ story.datetime }}">{{ story.datetime }}</time>
+      </section>
+    {% endfor %}
+  </div>
+</article>
