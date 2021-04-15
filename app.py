@@ -6,7 +6,7 @@ from random import randrange
 from datetime import datetime
 import os
 
-UPLOAD_IMAGE = '\\static\\images\\uploads\\'
+UPLOAD_IMAGE = '/static/images/uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
