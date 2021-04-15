@@ -45,8 +45,8 @@ def article(idx):
 def addpost():
     if request.form:
         type = request.form.get('type')
-        enum = int(len(db.get_all('Feed', 'id'))) + 1
-        idx = int(len(db.get_all('Feed', 'id', f'type={type}'))) + 1
+        enum = len(db.get_all('Feed', 'id')) + 1
+        idx = len(db.get_all('Feed', 'id', f'type="{type}"')) + 1
         title = request.form.get('title')
         text = request.form.get('text').replace('\\r', '\\n')
         tags = request.form.get('tags').replace(' ', ';')
