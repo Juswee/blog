@@ -7,12 +7,11 @@ from datetime import datetime
 import os
 
 UPLOAD_IMAGE = '/static/images/uploads/'
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
+#ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
 db = DB('static/my-database.db')
+
 # stories = [Story(*el) for el in db.get('Story', '*')]
-# print('stories', stories)
 stories = [
     Story(0, 'Отдыхаю на природе', '31.03.2021'),
     Story(1, 'Выбираю ноутбук', '15.03.2021'),
@@ -39,7 +38,7 @@ def rand_article():
 @app.route('/article/<int:idx>')
 def article(idx):
     if len(db.get('Feed', 'id', f'type="article"')) < idx:
-        return render_template('404.html', location=path)
+        return render_template('404.html', location=f'article/{idx}')
     return render_template('article.html', post=post(*db.get('Feed', 'id, title, text, tags, link, img, timestamp, type', f'type="article" and id={idx}')))
 
 
@@ -56,7 +55,7 @@ def addpost():
         timestamp = datetime.now().strftime('%d.%m.%Y')
         img = ''
 
-        if request.files and type != 'text':
+        if request.files:
             image = request.files['image']
             image_format_ind = image.filename[::-1].find('.')
             image_format = image.filename[-image_format_ind:]
