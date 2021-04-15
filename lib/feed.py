@@ -20,7 +20,7 @@ def url(text):
     beg_ind = text.find('[url=')
     while beg_ind != -1:
         end_ind = text.find(']', beg_ind)
-        text = text.replace('[url=', '<a href="', 1).replace('; ', '>', 1).replace(']', '</a>', 1)
+        text = text.replace('[url=', '<a href="', 1).replace('; ', '">', 1).replace(']', '</a>', 1)
         beg_ind = text.find('[url=')
     return text
 
