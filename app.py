@@ -38,6 +38,8 @@ def rand_article():
 
 @app.route('/article/<int:idx>')
 def article(idx):
+    if len(db.get('Feed', 'id', f'type="article"')) < idx:
+        return render_template('404.html', location=path)
     return render_template('article.html', post=post(*db.get('Feed', 'id, title, text, tags, link, img, timestamp, type', f'type="article" and id={idx}')))
 
 
