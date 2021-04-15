@@ -54,7 +54,7 @@ def addpost():
         timestamp = datetime.now().strftime('%d.%m.%Y')
         img = ''
 
-        if request.files:
+        if request.files and type != 'text':
             image = request.files['image']
             image_format_ind = image.filename[::-1].find('.')
             image_format = image.filename[-image_format_ind:]
