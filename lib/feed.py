@@ -13,6 +13,17 @@ class Article:
         leng = min([len(lst), 30])
         return str(lst[:leng]).replace(',', '').replace("'", '').replace('\\n', '').strip('[]')
 
+    def article_text(self):
+        return [url(p).replace('\n', '<br>') for p in self.text.split('\n\n')]
+
+def url(text):
+    beg_ind = text.find('[url=')
+    while beg_ind != -1:
+        end_ind = text.find(']', beg_ind)
+        text = text.replace('[url=', '<a href="', 1).replace('; ', '>', 1).replace(']', '</a>', 1)
+        beg_ind = text.find('[url=')
+    return text
+
 
 class Video:
     def __init__(self, idx, title, tags, link, img, timestamp, type):

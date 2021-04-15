@@ -18,8 +18,8 @@
       {% endfor %}
     </ul>
     <img src="/static/images/uploads/{{ post.img }}" alt="" class="article__image">
-    {% for p in post.text.split('\n') %}
-      <p class="article__text">{{ p }}</p>
+    {% for p in post.article_text() %}
+      <p class="article__text">{{ p | safe }}</p>
     {% endfor %}
   </section>
 
