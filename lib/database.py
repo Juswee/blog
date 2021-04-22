@@ -2,8 +2,8 @@ import psycopg2
 
 class Database:
     def __init__(self, url):
-        self.url = DATABASE_URL
-        self.con = psycopg2.connect(DATABASE_URL, sslmode='require')
+        self.url = url
+        self.con = psycopg2.connect(url, sslmode='require')
         
         self.con.execute(f'''CREATE TABLE IF NOT EXISTS Feed (
           enum INTEGER PRIMARY KEY,
