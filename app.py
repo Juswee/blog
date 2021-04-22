@@ -12,15 +12,15 @@ UPLOAD_IMAGE = '/static/images/uploads/'
 #ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
 conn = Database(DATABASE_URL)
-# db = DB('static/my-database.db')
+# conn = conn('static/my-database.db')
 
-# stories = [Story(*el) for el in db.get('Story', '*')]
+# stories = [Story(*el) for el in conn.get('Story', '*')]
 stories = [
     Story(0, 'Отдыхаю на природе', '31.03.2021'),
     Story(1, 'Выбираю ноутбук', '15.03.2021'),
     Story(2, 'Весна пришла', '01.03.2021')
 ]
-feed = [post(*el) for el in db.get_all('Feed', 'id, title, text, tags, link, img, timestamp, type')[::-1]]
+feed = [post(*el) for el in conn.get_all('Feed', 'id, title, text, tags, link, img, timestamp, type')[::-1]]
 
 
 app = Flask(__name__)
@@ -34,23 +34,23 @@ def index():
 
 @app.route('/article')
 def rand_article():
-    rnd = randrange(len(db.get('Feed', 'id', f'type="article"'))) + 1
+    rnd = randrange(len(conn.get('Feed', 'id', f'type="article"'))) + 1
     return redirect(f'article/{rnd}')
 
 
 @app.route('/article/<int:idx>')
 def article(idx):
-    if len(db.get('Feed', 'id', f'type="article"')) < idx:
+    if len(conn.get('Feed', 'id', f'type="article"')) < idx:
         return render_template('404.html', location=f'article/{idx}')
-    return render_template('article.html', post=post(*db.get('Feed', 'id, title, text, tags, link, img, timestamp, type', f'type="article" and id={idx}')))
+    return render_template('article.html', post=post(*conn.get('Feed', 'id, title, text, tags, link, img, timestamp, type', f'type="article" and id={idx}')))
 
 
 @app.route('/addpost', methods=['post'])
 def addpost():
     if request.form:
         type = request.form.get('type')
-        enum = len(db.get_all('Feed', 'id')) + 1
-        idx = len(db.get_all('Feed', 'id', f'type="{type}"')) + 1
+        enum = len(conn.get_all('Feed', 'id')) + 1
+        idx = len(conn.get_all('Feed', 'id', f'type="{type}"')) + 1
         title = request.form.get('title')
         text = request.form.get('text').replace('\\r', '\\n')
         tags = request.form.get('tags').replace(' ', ';')
@@ -66,7 +66,7 @@ def addpost():
             img = image.filename
             image.save(f'{os.getcwd()}{app.config["UPLOAD_IMAGE"]}{image.filename}')
 
-        feed.insert(0, add_post(db, enum, idx, title, text, tags, link, img, timestamp, type))
+        feed.insert(0, add_post(conn, enum, idx, title, text, tags, link, img, timestamp, type))
     return redirect('/')
 
 

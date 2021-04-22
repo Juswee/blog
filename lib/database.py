@@ -3,7 +3,7 @@ import psycopg2
 class Database:
     def __init__(self, url):
         self.url = url
-        self.con = psycopg2.connect(url, sslmode='require')+
+        self.con = psycopg2.connect(url, sslmode='require')
         self.cur = self.con.cursor()
         
         self.cur.execute(f'''CREATE TABLE IF NOT EXISTS Feed (
