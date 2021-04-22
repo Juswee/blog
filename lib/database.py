@@ -1,11 +1,11 @@
-import sqlite3
+import psycopg2
 
-class DB:
-    def __init__(self, filename):
-        self.filename = filename
-        self.sql = sqlite3.connect(filename, check_same_thread=False)
+class Database:
+    def __init__(self, url):
+        self.url = DATABASE_URL
+        self.con = psycopg2.connect(DATABASE_URL, sslmode='require')
         
-        self.sql.execute(f'''CREATE TABLE IF NOT EXISTS Feed (
+        self.con.execute(f'''CREATE TABLE IF NOT EXISTS Feed (
           enum INTEGER PRIMARY KEY,
           id INTEGER,
           title TEXT,
@@ -19,7 +19,7 @@ class DB:
 
     def get(self, table, indicator, expression=True):
         try:
-            return self.sql.execute(f'SELECT {indicator} FROM {table} WHERE {expression}').fetchone()
+            return self.con.execute(f'SELECT {indicator} FROM {table} WHERE {expression}').fetchone()
         except:
             return None
 
@@ -31,20 +31,20 @@ class DB:
 
     def set(self, table, indicator, expression=True):
         try:
-            self.sql.execute(f'UPDATE {table} SET {indicator} WHERE {expression}')
+            self.con.execute(f'UPDATE {table} SET {indicator} WHERE {expression}')
         except:
             return 'table not exists'
-        return self.sql.commit()
+        return self.con.commit()
 
     def push(self, table, data_list):
-        self.sql.execute(f'INSERT INTO {table} VALUES (?{", ?" * ( len(data_list) - 1 )})', data_list)
-        self.sql.commit()
+        self.con.execute(f'INSERT INTO {table} VALUES (?{", ?" * ( len(data_list) - 1 )})', data_list)
+        self.con.commit()
 
     def push_many(self, table, data_list):
         if ( type(data_list) == type([]) or type(data_list) == type(()) ) and type(data_list[0]) != type([]) and type(data_list[0]) != type(()):
             data_list = (data_list)
-        self.sql.executemany(f'INSERT INTO {table} VALUES (?{", ?" * ( len(data_list) - 1 )})', data_list)
-        self.sql.commit()
+        self.con.executemany(f'INSERT INTO {table} VALUES (?{", ?" * ( len(data_list) - 1 )})', data_list)
+        self.con.commit()
 
     def close(self):
-        self.sql.close()
+        self.con.close()

@@ -1,15 +1,18 @@
 from flask import Flask, render_template, redirect, request
 from lib.feed import post, add_post
 from lib.story import Story
-from lib.database import DB
+from lib.database import Database
 from random import randrange
 from datetime import datetime
 import os
 
+
+DATABASE_URL = os.environ['DATABASE_URL']
 UPLOAD_IMAGE = '/static/images/uploads/'
 #ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
-db = DB('static/my-database.db')
+conn = Database(DATABASE_URL)
+# db = DB('static/my-database.db')
 
 # stories = [Story(*el) for el in db.get('Story', '*')]
 stories = [
