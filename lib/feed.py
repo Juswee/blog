@@ -50,7 +50,7 @@ def post(idx, title, text, tags, link, img, timestamp, type):
     elif post_type == 'article': return Article(idx, title, timestamp, text, tags, img, type)
 
 
-def add_post(database, enum, idx, title, text, tags, link, img, timestamp, type):
-    data_list = (enum, idx, title, text, tags, link, img, timestamp, type)
-    database.push('Feed', data_list)
-    return post(*data_list[1:])
+def add_post(database, idx, title, text, tags, link, img, timestamp, type):
+    data_list = (idx, title, text, tags, link, img, timestamp, type)
+    database.push('Feed', 'id, title, text, tags, link, img, timestamp, type', data_list)
+    return post(*data_list)

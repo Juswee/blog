@@ -1,30 +1,24 @@
 from flask import Flask, render_template, redirect, request
-from lib.feed import post, add_post
-from lib.story import Story
-from lib.database import Database
 from random import randrange
 from datetime import datetime
 import os
 
+from lib.feed import post, add_post
+from lib.story import Story
+from lib.database import Database
 
-DATABASE_URL = 'postgres://tgaqugindcjkfq:6e3293b085d408e8593ff424b108674a5d4206f3d4fd3a192c0164525fd0e43d@ec2-34-242-89-204.eu-west-1.compute.amazonaws.com:5432/d6ei6tn8iogst2'
-UPLOAD_IMAGE = '/static/images/uploads/'
-#ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
-conn = Database(DATABASE_URL)
-# conn = conn('static/my-database.db')
+app = Flask(__name__)
+app.config.from_pyfile('settings.py')
 
-# stories = [Story(*el) for el in conn.get('Story', '*')]
+conn = Database(app.config["DATABASE_URL"])
+
 stories = [
     Story(0, 'Отдыхаю на природе', '31.03.2021'),
     Story(1, 'Выбираю ноутбук', '15.03.2021'),
     Story(2, 'Весна пришла', '01.03.2021')
 ]
 feed = [post(*el) for el in conn.get_all('Feed', 'id, title, text, tags, link, img, timestamp, type')[::-1]]
-
-
-app = Flask(__name__)
-app.config['UPLOAD_IMAGE'] = UPLOAD_IMAGE
 
 
 @app.route('/')
@@ -49,7 +43,7 @@ def article(idx):
 def addpost():
     if request.form:
         type = request.form.get('type')
-        enum = len(conn.get_all('Feed', 'id')) + 1
+        # enum = len(conn.get_all('Feed', 'id')) + 1
         idx = len(conn.get_all('Feed', 'id', f'type="{type}"')) + 1
         title = request.form.get('title')
         text = request.form.get('text').replace('\\r', '\\n')
@@ -66,7 +60,7 @@ def addpost():
             img = image.filename
             image.save(f'{os.getcwd()}{app.config["UPLOAD_IMAGE"]}{image.filename}')
 
-        feed.insert(0, add_post(conn, enum, idx, title, text, tags, link, img, timestamp, type))
+        feed.insert(0, add_post(conn, idx, title, text, tags, link, img, timestamp, type))
     return redirect('/')
 
 
