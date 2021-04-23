@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config.from_pyfile('settings.py')
 
 conn = Database(app.config["DATABASE_URL"])
+conn.init_databases()
 
 stories = [
     Story(0, 'Отдыхаю на природе', '31.03.2021'),
@@ -20,17 +21,14 @@ stories = [
 ]
 feed = [post(*el) for el in conn.get_all('Feed', 'id, title, text, tags, link, img, timestamp, type')[::-1]]
 
-
 @app.route('/')
 def index():
     return render_template('index.html', stories=stories, feed=feed)
-
 
 @app.route('/article')
 def rand_article():
     rnd = randrange(len(conn.get('Feed', 'id', f'type="article"'))) + 1
     return redirect(f'article/{rnd}')
-
 
 @app.route('/article/<int:idx>')
 def article(idx):
